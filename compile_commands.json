@@ -1,0 +1,18 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/cc",
+      "-I./includes",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-c",
+      "-o",
+      "objs/main.o",
+      "srcs/main.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/main.c",
+    "output": "/home/chulee/warning-site-db/objs/main.o"
+  }
+]
