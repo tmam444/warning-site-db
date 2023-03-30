@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/29 16:03:17 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/30 18:41:32 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 # include "table.h"
 # include "MD5.h"
 # include "EnCrypt.h"
+# include "get_next_line.h"
 # include <string.h>
 
 typedef enum {
-	SUB_DIRECTORY,
-	PAGE
+	SUB_DIRECTORY = 'S',
+	PAGE = 'P'
 } e_type;
 
 typedef enum {
-	INSERT,
-	DELETE
+	TOKEN_STATUS_ERROR,
+    TOKEN_STATUS_NORMAL,
+    TOKEN_STATUS_ABNORMAL
+} e_token_status;
+
+typedef enum {
+	INSERT = 'I',
+	DELETE = 'D'
 } e_status;
 
 typedef enum {
@@ -49,6 +56,8 @@ typedef struct site_info_struct {
 	e_type		type;
 } site_info;
 
+char**			ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_size);
+site_info*		ntk_parser(char *str, char **key);
 int				ntk_compare(const void *x, const void *y);
 void			ntk_put_table(Table *table, const char *__key, site_info *__value);
 void			ntk_remove_table(Table *table, const char *__key);

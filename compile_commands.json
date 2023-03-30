@@ -1,18 +1,44 @@
 [
   {
     "arguments": [
-      "/usr/bin/cc",
+      "/usr/bin/gcc",
+      "-O3",
       "-I./includes",
-      "-Wall",
-      "-Wextra",
-      "-Werror",
       "-c",
       "-o",
-      "objs/main.o",
-      "srcs/main.c"
+      "objs/EnCrypt.o",
+      "srcs/EnCrypt.c"
     ],
     "directory": "/home/chulee/warning-site-db",
-    "file": "/home/chulee/warning-site-db/srcs/main.c",
-    "output": "/home/chulee/warning-site-db/objs/main.o"
+    "file": "/home/chulee/warning-site-db/srcs/EnCrypt.c",
+    "output": "/home/chulee/warning-site-db/objs/EnCrypt.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/MD5.o",
+      "srcs/MD5.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/MD5.c",
+    "output": "/home/chulee/warning-site-db/objs/MD5.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/get_next_line.o",
+      "srcs/get_next_line.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/get_next_line.c",
+    "output": "/home/chulee/warning-site-db/objs/get_next_line.o"
   }
 ]
