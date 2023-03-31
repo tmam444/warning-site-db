@@ -6,13 +6,13 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:28 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/29 16:02:36 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 16:19:27 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "table.h"
 
-Table*	new_table(unsigned int _size, int _cmp(const void *x, const void *y), \
+Table*	table_new(unsigned int _size, int _cmp(const void *x, const void *y), \
 					unsigned int _hash(const void *key))
 {
 	Table			*ret;
@@ -32,7 +32,7 @@ Table*	new_table(unsigned int _size, int _cmp(const void *x, const void *y), \
 	return (ret);
 }
 
-void*	get_table(Table *table, const void *key)
+void*	table_get(Table *table, const void *key)
 {
 	void			*value = NULL;
 	Node			*node;
@@ -48,7 +48,7 @@ void*	get_table(Table *table, const void *key)
 	return (value);
 }
 
-void*	put_table(Table *table, const void *key, void *value)
+void*	table_put(Table *table, const void *key, void *value)
 {
 	void			*prev = NULL;	// return prev value
 	Node			*node;
@@ -74,7 +74,7 @@ void*	put_table(Table *table, const void *key, void *value)
 	return (prev);
 }
 
-void*	remove_table(Table *table, const void *key)
+void*	table_remove(Table *table, const void *key)
 {
 	void			*delete_value = NULL;	//return value;
 	Node			**current_node;
@@ -100,7 +100,7 @@ void*	remove_table(Table *table, const void *key)
 	return (delete_value);
 }
 
-void	free_table(Table *table)
+void	table_free(Table *table)
 {
 	int		i;
 	Node	*node, *temp;
@@ -129,7 +129,37 @@ void	free_table(Table *table)
 	}
 }
 
-const void**	key_set(Table *table)
+void	table_free_with_custom_free(Table *table, void (*value_free_function)(void *))
+{
+	int		i;
+	Node	*node, *temp;
+
+	assert(value_free_function != NULL);
+	if (table)
+	{
+		if (table->buckets)
+		{
+			for (i = 0; i < table->size; i++)
+			{
+				node = table->buckets[i];
+				while (node != NULL)
+				{
+					if (node->key)
+						free((void *)node->key);
+					if (node->value)
+						value_free_function(node->value);
+					temp = node->next;
+					free(node);
+					node = temp;
+				}
+			}
+			free(table->buckets);
+		}
+		free(table);
+	}
+}
+
+const void**	table_get_key_set(Table *table)
 {
 	const void	**ret = malloc(sizeof(const void *) * (table->length + 1));
 	int			i, j;

@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 13:22:40 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/29 15:56:05 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 16:19:22 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ typedef struct Table {
 	struct Node		**buckets;
 } Table;
 
-Table*			new_table(unsigned int size, int cmp(const void *x, const void *y), unsigned int hash(const void *key));
-void*			get_table(Table *table, const void *key);
-void*			put_table(Table *table, const void *key, void *value);
-void*			remove_table(Table *table, const void *key);
-void			free_table(Table *table);
-const void**	key_set(Table *table);
+Table*			table_new(unsigned int size, int cmp(const void *x, const void *y), unsigned int hash(const void *key));
+void*			table_get(Table *table, const void *key);
+void*			table_put(Table *table, const void *key, void *value);
+void*			table_remove(Table *table, const void *key);
+void			table_free(Table *table);
+void			table_free_with_custom_free(Table *table, void (*value_free_function)(void *));
+const void**	table_get_key_set(Table *table);
 
 #endif

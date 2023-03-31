@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:49:44 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/29 18:54:36 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 16:13:39 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,11 @@ typedef struct List {
 	struct List	*next;
 } List;
 
-List*	create_list(void *value)
-{
-	List	*ret;
 
-	ret = (List *)malloc(sizeof(List));
-	assert(ret != NULL);
-	ret->value = value;
-	ret->next = NULL;
-	return (ret);
-}
-
-List*	list_push(List *lst, void *value)
-{
-	List	*ret;
-
-	ret = create_list(value);
-	ret->next = lst;
-	return (ret);
-}
-
-
+List*	list_push(List *lst, void *value);
+List*	list_pop(List *lst, void **value);
+int		list_length(List *lst);
+void	list_free(List *lst);
+void	list_free_with_custom_free(List *lst, void (*value_free_function)(void *));
 
 #endif

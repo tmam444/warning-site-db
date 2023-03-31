@@ -6,41 +6,64 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:45:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/30 19:01:30 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 17:11:33 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "list.h"
 #include "site_db_table.h"
+#include "table.h"
 
-int	main(void)
+bool	setup(Table *table)
 {
-	int			fd;
-	char		*line, *key = NULL;
+	const char	*filename = "./00000000.txt";
+	char		*line, *key;
 	site_info	*info;
+	int			fd, i;
 
-	fd = open("./00000000.txt", O_RDONLY);
-	assert(fd >= 0);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		fprintf(stderr, "Not Found File: %s\n", filename);
+		return (false);
+	}
+	table = table_new(TABLE_SIZE, ntk_compare, ntk_hash);
+	i = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		info = ntk_parser(line, &key);
-		printf("url = %s\n", line);
-		printf("key = %s, port=%d, path=%s, file=%s, nude=%d, sex=%d, vio=%d, lang=%d, etc1=%d, etc2=%d, status=%c, type=%c\n", \
-				key, info->port, info->path, info->file, info->nude, info->sex, info->violence, \
-				info->language, info->etc1, info->etc2, info->status, info->type);
-		if (info)
-		{
-			if (info->file)
-				free(info->file);
-			if (info->path)
-				free(info->path);
-			free(info);
-		}
-		if (key)
-			free(key);
-		if (line)
-			free(line);
-		printf("\n");
+		if (info->status == INSERT)
+			ntk_table_put(table, key, info);
+		else
+			ntk_table_remove(table, key);
+		free(line);
+		i++;
+		if (i % 1000 == 0)
+			printf("read line count : %d\n", i);
 	}
+	printf("setup complete\n");
+	return (true);
+}
+
+int	main(void)
+{
+	Table		*table;
+	const void	**keys;
+	domain_info	*info;
+	int			i;
+
+	table = table_new(TABLE_SIZE, ntk_compare, ntk_hash);
+	setup(table);
+	keys = table_get_key_set(table);
+	i = 0;
+	while (keys[i] != NULL)
+	{
+		printf("keys[i] = %s\n", (char *)keys[i]);
+		info = table_get(table, keys[i]);
+		printf("info.directory.length = %d, info.page.length = %d\n", list_length(info->directory), info->page->length);
+		i++;
+	}
+	free(keys);
+	table_free_with_custom_free(table, free_domain_info);
 	return (0);
 }

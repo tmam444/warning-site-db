@@ -6,7 +6,7 @@
 /*   By: szheng <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/28 14:48:08 by szheng            #+#    #+#             */
-/*   Updated: 2023/03/30 17:18:20 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 18:47:18 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 char*	get_next_line(const int fd);
 char**	str_split(char const *s, char delimiter);
+char*	ntk_strjoin(char const *s1, char const *s2);
 char*	ntk_strdup(const char *s1);
 
 #endif

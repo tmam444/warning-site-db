@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:57:32 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/30 16:20:13 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 18:47:05 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char*	ntk_strdup(const char *s1)
     return (ret);
 }
 
-static char*	strjoin(char const *s1, char const *s2)
+char*	ntk_strjoin(char const *s1, char const *s2)
 {
 	int		len;
 	char	*str;
@@ -88,7 +88,7 @@ char*	get_next_line(const int fd)
 			remaining_str = ntk_strdup(buff);
 		else
 		{
-			tmp = strjoin(remaining_str, buff);
+			tmp = ntk_strjoin(remaining_str, buff);
 			free(remaining_str);
 			remaining_str = tmp;
 		}

@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/30 18:59:43 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 13:08:09 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, in
 	else
 		*status = TOKEN_STATUS_ABNORMAL;
 	return (tokens);
+}
+
+void	free_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i] != NULL)
+		free(tokens[i++]);
+	free(tokens);
 }
 
 bool	set_file_and_path(site_info *ret, char *url, char **tokens)
@@ -132,5 +142,6 @@ site_info	*ntk_parser(char *url, char **key)
 	if (token_status == TOKEN_STATUS_ERROR)
 		return (NULL);
 	ret = ntk_make_info(url, tokens, key, token_status, token_length);
+	free_tokens(tokens);
 	return (ret);
 }
