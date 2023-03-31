@@ -6,18 +6,27 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 17:30:59 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 19:03:57 by chulee           ###   ########.fr       */
+/*   Updated: 2023/03/31 19:17:21 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "site_db_table.h"
 
-const char*	make_encoding_url(char *url, int port)
-{
-	const char	*http = "http://", *https = "https://", *www = "www.", *ret = NULL;
-	char		*check_point = url;
-	bool		is_start_http = false, is_start_www = false;
+struct url_struct {
+	char	*domain;
+	char	*directory;
+	char	*file;
+};
 
+struct url_struct*	make_encoding_url(char *url, int port)
+{
+	const char			*http = "http://", *https = "https://", *www = "www.";
+	char				*check_point = url;
+	bool				is_start_http = false, is_start_www = false;
+	struct url_struct	*s_url;
+
+	s_url = malloc(sizeof(struct url_struct));
+	assert(s_url != NULL);
 	if (strncmp(url, http, strlen(http)) == 0)
 	{
 		is_start_http = true;
@@ -67,10 +76,10 @@ const char*	make_encoding_url(char *url, int port)
 
 bool	ntk_check_url(char *url, int port)
 {
-	const char	*encoding_url;
-	bool		ret = false;
+	struct url_struct	*s_url;
+	bool				ret = false;
 
-	encoding_url = make_encoding_url(url, port);
+	s_url = make_encoding_url(url, port);
 
 	return (ret);
 }
