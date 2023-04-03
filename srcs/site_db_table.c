@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 16:45:01 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 18:52:07 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 domain_info*	create_domain_info(void)
 {
-	domain_info	*ret;
+	domain_info		*ret;
 
 	ret = malloc(sizeof(domain_info));
 	ret->directory = NULL;
@@ -114,6 +114,17 @@ unsigned int	ntk_hash(const void *__key, const size_t table_size)
 {
 	const char		*key = __key;
     unsigned long	hash = 5381;
+    int c;
+
+    while ((c = *key++))
+        hash = (((hash << 5) + hash) + c);
+    return (hash % table_size);
+}
+
+unsigned int	ntk_hash_two(const void *__key, const size_t table_size)
+{
+	const char		*key = __key;
+    unsigned long	hash = 7963;
     int c;
 
     while ((c = *key++))

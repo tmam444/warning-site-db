@@ -6,12 +6,14 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 13:35:05 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 19:06:54 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SITE_DB_TABLE_H
 # define SITE_DB_TABLE_H
+# define TABLE_FIRST_SIZE 10000000
+# define TABLE_SECOND_SIZE 5000000
 # define TABLE_PAGE_SIZE 200
 # include "table.h"
 # include "list.h"
@@ -44,6 +46,11 @@ typedef enum {
     GRADE_4
 } e_grade;
 
+typedef struct ntk_table_struct {
+	Table	*first_table;
+	Table	*second_table;
+} ntk_table;
+
 typedef struct domain_info_struct {
 	List	*directory;
 	Table	*page;
@@ -65,11 +72,15 @@ typedef struct site_info_struct {
 
 void			free_info(void *__info);
 void			free_domain_info(void *__info);
+ntk_table*		ntk_new_table(size_t table_size);
+Table*			table_new(unsigned int size, int cmp(const void *x, const void *y), \
+																unsigned int (*hash)(const void *key, const size_t table_size));
 char**			ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_size);
 site_info*		ntk_parser(char *str, char **key);
 int				ntk_compare(const void *x, const void *y);
 void			ntk_table_put(Table *table, const char *__key, site_info *__value);
 void			ntk_table_remove(Table *table, const char *__key);
-unsigned int	ntk_hash(const void *__key, const size_t table_size);
+unsigned int	ntk_hash_first(const void *__key, const size_t table_size);
+unsigned int	ntk_hash_two(const void *__key, const size_t table_size);
 
 #endif

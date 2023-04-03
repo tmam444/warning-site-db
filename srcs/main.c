@@ -6,13 +6,13 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:45:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 16:44:22 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 18:54:11 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.h"
 #include "site_db_table.h"
-#include <time.h>
+#include "table.h"
 
 void	setup(Table *table)
 {
@@ -68,15 +68,9 @@ void	print_all(Table *table)
 		if (0 < info->page->length)
 			len_page++;
 		if (max_directory < temp_directory_size)
-		{
-			printf("change max_directory, prev = %d, cur = %d\n", max_directory, temp_directory_size);
 			max_directory = temp_directory_size;
-		}
 		if (max_page < info->page->length)
-		{
-			printf("change max_page, prev = %d, cur = %d\n", max_page, info->page->length);
 			max_page = info->page->length;
-		}
 		avg_page += info->page->length;
 		avg_directory += temp_directory_size;
 		i++;
@@ -88,7 +82,7 @@ void	print_all(Table *table)
 
 int	main(void)
 {
-	Table		*table;
+	Table			*table;
 
 	table = table_new(TABLE_SIZE, ntk_compare, ntk_hash);
 	setup(table);
