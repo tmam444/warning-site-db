@@ -6,14 +6,14 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:28 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 16:19:27 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 17:45:20 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "table.h"
 
 Table*	table_new(unsigned int _size, int _cmp(const void *x, const void *y), \
-					unsigned int _hash(const void *key))
+				unsigned int (*_hash)(const void *key, const size_t table_size))
 {
 	Table			*ret;
 	unsigned int	i;
@@ -39,7 +39,7 @@ void*	table_get(Table *table, const void *key)
 	unsigned int	index;
 
 	assert(table != NULL && key != NULL);
-	index = table->hash(key);
+	index = table->hash(key, table->size);
 	for (node = table->buckets[index]; node != NULL; node = node->next)
 		if (table->cmp(node->key, key) == 0)
 			break;
@@ -55,7 +55,7 @@ void*	table_put(Table *table, const void *key, void *value)
 	unsigned int	index;
 	
 	assert(table != NULL && key != NULL);
-	index = table->hash(key);
+	index = table->hash(key, table->size);
 	for (node = table->buckets[index]; node != NULL; node = node->next)
 		if (table->cmp(node->key, key) == 0)
 			break;
@@ -82,7 +82,7 @@ void*	table_remove(Table *table, const void *key)
 	unsigned int	index;
 
 	assert(table != NULL && key != NULL);
-	index = table->hash(key);
+	index = table->hash(key, table->size);
 	for (current_node = &table->buckets[index]; *current_node != NULL; current_node = &(*current_node)->next)
 	{
 		if (table->cmp((*current_node)->key, key) == 0)

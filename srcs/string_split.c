@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_split.c                                        :+:      :+:    :+:   */
+/*   string_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chulee <chulee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 20:32:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/30 17:18:50 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:26:30 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static char    *substr(char const *s, unsigned int start, size_t len)
     return (ret);
 }
 
-char	**str_split(char const *s, char delimiter)
+char	**ntk_str_split(char const *s, char delimiter)
 {
 	char	**ret;
 	int		word_count;
@@ -93,8 +93,7 @@ char	**str_split(char const *s, char delimiter)
 		return (NULL);
 	word_count = count_words(s, delimiter);
 	ret = malloc(sizeof(char *) * (word_count + 1));
-	if (!ret)
-		return (NULL);
+	assert(ret != NULL);
 	i = 0;
 	start = 0;
 	while (i < word_count)

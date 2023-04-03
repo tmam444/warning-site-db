@@ -6,12 +6,13 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 16:48:34 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 13:35:05 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SITE_DB_TABLE_H
 # define SITE_DB_TABLE_H
+# define TABLE_PAGE_SIZE 200
 # include "table.h"
 # include "list.h"
 # include "MD5.h"
@@ -69,6 +70,6 @@ site_info*		ntk_parser(char *str, char **key);
 int				ntk_compare(const void *x, const void *y);
 void			ntk_table_put(Table *table, const char *__key, site_info *__value);
 void			ntk_table_remove(Table *table, const char *__key);
-unsigned int	ntk_hash(const void *__key);
+unsigned int	ntk_hash(const void *__key, const size_t table_size);
 
 #endif

@@ -6,44 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:57:32 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 18:47:05 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:24:54 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char*	ntk_strdup(const char *s1)
-{
-    char	*ret;
-    int		i;
-
-    ret = malloc(strlen(s1) + 1);
-    if (!ret)
-        return (NULL);
-    i = 0;
-    while (s1[i] != '\0')
-    {
-        ret[i] = s1[i];
-        i++;
-    }
-    ret[i] = '\0';
-    return (ret);
-}
-
-char*	ntk_strjoin(char const *s1, char const *s2)
-{
-	int		len;
-	char	*str;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len = strlen(s1) + strlen(s2);
-	str = malloc(len + 1);
-	assert(str != NULL);
-	strcpy(str, s1);
-	strcat(str, s2);
-	return (str);
-}
 
 static char*	extract_line(char **str_ref, const int read_size)
 {
@@ -81,6 +48,9 @@ char*	get_next_line(const int fd)
 	char		*tmp;
 
 	assert(fd >= 0);
+
+	if (remaining_str != NULL && strchr(remaining_str, '\n') != NULL)
+		return (extract_line(&remaining_str, BUFF_SIZE));
 	while ((read_size = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[read_size] = '\0';

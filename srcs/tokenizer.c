@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 13:08:09 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:39:37 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, in
 	int		length = 0;
 	char	**tokens;
 
-	tokens = str_split(url, delimiter);
+	tokens = ntk_str_split(url, delimiter);
 	while (tokens[length] != NULL)
 		length++;
 	*token_length = length;
@@ -75,15 +75,14 @@ bool	set_file_and_path(site_info *ret, char *url, char **tokens)
 {
     int		str_size;
     char	*path_token = tokens[2];
-    char	*path_start_point;
-    char	*file_start_point;
-    char	*file;
+    char	*path_start_point, *path;
+    char	*file_start_point, *file;
 
     // Find file start point and extract file
     file_start_point = strrstr(url, path_token);
 	if (file_start_point == NULL)
 		return (false);
-    str_size = strlen(file_start_point) - 16;
+    str_size = strlen(file_start_point) - 16; // 16 str length = ,4,4,0,0,0,0,I,P
     file = malloc(str_size + 1);
     assert(file != NULL);
     strncpy(file, file_start_point, str_size);
@@ -95,12 +94,13 @@ bool	set_file_and_path(site_info *ret, char *url, char **tokens)
 	if (path_start_point == NULL)
 		return (false);
     str_size = file_start_point - path_start_point - 1;
-    char *path = malloc(str_size + 1);
+	if (str_size <= 0)
+		return (false);
+    path = malloc(str_size + 1);
 	assert(path != NULL);
     strncpy(path, path_start_point, str_size);
     path[str_size] = '\0';
     ret->path = path;
-
     return (true);
 }
 
@@ -119,7 +119,13 @@ site_info	*ntk_make_info(char *url, char **tokens, char **key, e_token_status to
 		ret->file = ntk_strdup(tokens[3]);
 	}
 	else
-		set_file_and_path(ret, url, tokens);
+	{
+		if (set_file_and_path(ret, url, tokens) == false)
+		{
+			free_info(ret);
+			return (NULL);
+		}
+	}
 	ret->nude = atoi(tokens[length - 8]);
 	ret->sex = atoi(tokens[length - 7]);
 	ret->violence = atoi(tokens[length - 6]);

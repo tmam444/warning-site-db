@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 16:55:02 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/03 16:45:01 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ domain_info*	create_domain_info(void)
 
 	ret = malloc(sizeof(domain_info));
 	ret->directory = NULL;
-	ret->page = table_new(TABLE_SIZE, ntk_compare, ntk_hash);
+	ret->page = table_new(TABLE_PAGE_SIZE, ntk_compare, ntk_hash);
 	return (ret);
 }
 
@@ -68,6 +68,8 @@ void	ntk_table_put(Table *table, const char *key, site_info *info)
 {
 	domain_info	*value = table_get(table, key);
 	site_info	*prev_info;
+	Node		*node;
+	static int	collision_count;
 
 	assert(key != NULL && table != NULL && info != NULL);
 	if (value == NULL)
@@ -79,6 +81,15 @@ void	ntk_table_put(Table *table, const char *key, site_info *info)
 		prev_info = table_put(value->page, ntk_strdup(info->file), info);
 		if (prev_info != NULL)
 			free_info(prev_info);
+	}
+	int	index = table->hash(key, table->size);
+	for (node = table->buckets[index]; node != NULL; node = node->next)
+		if (table->cmp(node->key, key) == 0)
+			break ;
+	if (table->buckets[index] != NULL && node == NULL)
+	{
+		printf("length = %d, collision_count = %d\n", table->length, collision_count);
+		collision_count++;
 	}
 	table_put(table, key, value);
 }
@@ -99,13 +110,13 @@ void	ntk_table_free(Table *table)
 		table_free_with_custom_free(table, free_domain_info);
 }
 
-unsigned int	ntk_hash(const void *__key)
+unsigned int	ntk_hash(const void *__key, const size_t table_size)
 {
 	const char		*key = __key;
     unsigned long	hash = 5381;
     int c;
 
     while ((c = *key++))
-        hash = (((hash << 5) + hash) + c) % TABLE_SIZE;
-    return (hash);
+        hash = (((hash << 5) + hash) + c);
+    return (hash % table_size);
 }
