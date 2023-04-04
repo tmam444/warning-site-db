@@ -6,7 +6,7 @@
 #    By: chulee <chulee@nstek.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 14:04:03 by chulee            #+#    #+#              #
-#    Updated: 2023/04/03 11:46:11 by chulee           ###   ########.fr        #
+#    Updated: 2023/04/04 17:53:33 by chulee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ SRCS=$(wildcard srcs/*.c)
 OBJS = $(addprefix objs/, $(notdir $(SRCS:.c=.o)))
 CC = gcc
 INCLUDE= -I./includes
-CFLAGS = -O3
-LDFLAGS = 
+CFLAGS = -fsanitize=address -g
+LDFLAGS = -lm
 OBJ_FILES = $(OBJS)
 
 $(NAME) : $(OBJ_FILES)

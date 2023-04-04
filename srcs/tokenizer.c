@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 15:39:37 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/04 18:24:46 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,17 @@ char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, in
 
 void	free_tokens(char **tokens)
 {
-	int	i;
+	char	**temp;
+	int		i;
 
 	i = 0;
-	while (tokens[i] != NULL)
-		free(tokens[i++]);
-	free(tokens);
+	if (tokens)
+	{
+		temp = tokens;
+		while (temp[i] != NULL)
+			free(temp[i++]);
+		free(tokens);
+	}
 }
 
 bool	set_file_and_path(site_info *ret, char *url, char **tokens)
@@ -122,6 +127,7 @@ site_info	*ntk_make_info(char *url, char **tokens, char **key, e_token_status to
 	{
 		if (set_file_and_path(ret, url, tokens) == false)
 		{
+			free(*key);
 			free_info(ret);
 			return (NULL);
 		}
@@ -146,7 +152,10 @@ site_info	*ntk_parser(char *url, char **key)
 
 	tokens = ntk_tokenizer(url, ',', &token_status, &token_length);
 	if (token_status == TOKEN_STATUS_ERROR)
+	{
+		free_tokens(tokens);
 		return (NULL);
+	}
 	ret = ntk_make_info(url, tokens, key, token_status, token_length);
 	free_tokens(tokens);
 	return (ret);
