@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 16:55:23 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:56:10 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 17:02:49 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef enum {
 } e_grade;
 
 typedef struct ntk_table_struct {
-	Table	**tables;
-	int		table_size;
+	Table			**tables;
+	unsigned int	table_size;
 } ntk_table;
 
 typedef struct domain_info_struct {
