@@ -6,11 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 17:30:59 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:22:59 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:58:14 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "site_db_table.h"
+#include "warning_site_db_table.h"
 
 void	print_site_info(site_info *info)
 {
@@ -19,7 +19,7 @@ void	print_site_info(site_info *info)
 																	info->status, info->type);
 }
 
-url_info*	create_url_struct(char *host, char *urn, int port)
+static url_info*	create_url_struct(char *host, char *urn, int port)
 {
     const char	*http = "http://", *https = "https://", *www = "www.";
     char		*host_check_point = host, *urn_check_point = urn;

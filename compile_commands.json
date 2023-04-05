@@ -34,11 +34,165 @@
       "-I./includes",
       "-c",
       "-o",
+      "objs/check_url.o",
+      "srcs/check_url.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/check_url.c",
+    "output": "/home/chulee/warning-site-db/objs/check_url.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/free_struct.o",
+      "srcs/free_struct.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/free_struct.c",
+    "output": "/home/chulee/warning-site-db/objs/free_struct.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
       "objs/get_next_line.o",
       "srcs/get_next_line.c"
     ],
     "directory": "/home/chulee/warning-site-db",
     "file": "/home/chulee/warning-site-db/srcs/get_next_line.c",
     "output": "/home/chulee/warning-site-db/objs/get_next_line.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/hash.o",
+      "srcs/hash.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/hash.c",
+    "output": "/home/chulee/warning-site-db/objs/hash.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/list.o",
+      "srcs/list.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/list.c",
+    "output": "/home/chulee/warning-site-db/objs/list.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/main.o",
+      "srcs/main.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/main.c",
+    "output": "/home/chulee/warning-site-db/objs/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/string_split.o",
+      "srcs/string_split.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/string_split.c",
+    "output": "/home/chulee/warning-site-db/objs/string_split.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/string_utils.o",
+      "srcs/string_utils.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/string_utils.c",
+    "output": "/home/chulee/warning-site-db/objs/string_utils.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/string_utils_itoa.o",
+      "srcs/string_utils_itoa.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/string_utils_itoa.c",
+    "output": "/home/chulee/warning-site-db/objs/string_utils_itoa.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/table.o",
+      "srcs/table.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/table.c",
+    "output": "/home/chulee/warning-site-db/objs/table.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/tokenizer.o",
+      "srcs/tokenizer.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/tokenizer.c",
+    "output": "/home/chulee/warning-site-db/objs/tokenizer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-O3",
+      "-I./includes",
+      "-c",
+      "-o",
+      "objs/warning_site_db_table.o",
+      "srcs/warning_site_db_table.c"
+    ],
+    "directory": "/home/chulee/warning-site-db",
+    "file": "/home/chulee/warning-site-db/srcs/warning_site_db_table.c",
+    "output": "/home/chulee/warning-site-db/objs/warning_site_db_table.o"
   }
 ]

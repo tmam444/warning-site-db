@@ -6,12 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 15:22:37 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:43:44 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-# include "site_db_table.h"
+#include "warning_site_db_table.h"
 
 void	free_tokens(char **tokens)
 {

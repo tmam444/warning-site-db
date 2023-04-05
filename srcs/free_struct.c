@@ -6,11 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:39:28 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 14:49:05 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:43:20 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "site_db_table.h"
+#include "warning_site_db_table.h"
 
 void	free_info(void *__info)
 {

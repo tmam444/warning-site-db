@@ -6,12 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:45:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:31:01 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:45:38 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
-#include "site_db_table.h"
+#include "warning_site_db_table.h"
 
 unsigned int	collision_count[TABLE_COUNT];
 
@@ -71,10 +70,16 @@ void	clear(ntk_table *table)
 
 void	check_test(ntk_table *table)
 {
+#ifdef DEBUG_H
+	START_TIME("4 items Search start!");
+#endif
 	ntk_check_url("www.metart.com", "/account", 443, table);
 	ntk_check_url("www.metart.com", "/account/", 443, table);
 	ntk_check_url("sexefelin.com", "/", 80, table);
 	ntk_check_url("sexefelin.com", "/labels.rdf", 80, table);
+#ifdef DEBUG_H
+	END_TIME("Search time");
+#endif
 }
 
 int	main(int argc, char *argv[])

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   site_db_table.c                                    :+:      :+:    :+:   */
+/*   warning_site_db_table.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:33:29 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:43:51 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "site_db_table.h"
+#include "warning_site_db_table.h"
 
 static domain_info*	create_domain_info(void)
 {
