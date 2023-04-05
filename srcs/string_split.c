@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 20:32:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 15:26:30 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 14:24:02 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,22 @@ static char    *substr(char const *s, unsigned int start, size_t len)
     return (ret);
 }
 
-char	**ntk_str_split(char const *s, char delimiter)
+void	ntk_strsplit_free(char **str_splits)
+{
+	char	**temp;
+	int		i;
+
+	i = 0;
+	if (str_splits)
+	{
+		temp = str_splits;
+		while (temp[i] != NULL)
+			free(temp[i++]);
+		free(str_splits);
+	}
+}
+
+char	**ntk_strsplit(char const *s, char delimiter)
 {
 	char	**ret;
 	int		word_count;

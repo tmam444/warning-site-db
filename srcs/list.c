@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 11:05:57 by chulee            #+#    #+#             */
-/*   Updated: 2023/03/31 16:16:49 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 13:31:24 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void	list_free(List *lst)
 		free(lst);
 		lst = temp;
 	}
+}
+
+void*	list_search(List *lst, void *find_value, int (*cmp)(void *, void *))
+{
+	while (lst != NULL)
+	{
+		if (cmp(find_value, lst->value) == 0)
+			return (lst->value);
+		lst = lst->next;
+	}
+	return (NULL);
 }
 
 void	list_free_with_custom_free(List *lst, void (*value_free_function)(void *))

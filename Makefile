@@ -6,7 +6,7 @@
 #    By: chulee <chulee@nstek.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 14:04:03 by chulee            #+#    #+#              #
-#    Updated: 2023/04/04 17:53:33 by chulee           ###   ########.fr        #
+#    Updated: 2023/04/05 13:21:42 by chulee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME=md5
 SRCS=$(wildcard srcs/*.c)
 OBJS = $(addprefix objs/, $(notdir $(SRCS:.c=.o)))
 CC = gcc
-INCLUDE= -I./includes
-CFLAGS = -fsanitize=address -g
+INCLUDE= -O3 -I./includes
+CFLAGS = 
 LDFLAGS = -lm
 OBJ_FILES = $(OBJS)
 

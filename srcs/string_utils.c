@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 15:23:51 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/03 15:25:01 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 14:18:46 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,35 @@ char*	ntk_strjoin(char const *s1, char const *s2)
 	strcpy(str, s1);
 	strcat(str, s2);
 	return (str);
+}
+
+char *ntk_strrstr(const char *haystack, const char *needle)
+{
+    int  haystack_len;
+    int  needle_len;
+    char *ptr;
+
+    haystack_len = strlen(haystack);
+    needle_len   = strlen(needle);
+
+    if(needle_len == 0) {
+        return (char *)haystack;
+    }
+
+    if(needle_len > haystack_len) {
+        return NULL;
+    }
+
+    ptr = (char *)haystack + haystack_len - needle_len;
+    
+    while(1)  {
+        if(strncmp(ptr, needle, needle_len) == 0) {
+            return ptr;
+        }
+        if(ptr == haystack) {
+            break;
+        }
+		ptr--;
+    }
+    return NULL;
 }

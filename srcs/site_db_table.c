@@ -6,15 +6,13 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/04 18:13:57 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 15:48:31 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "site_db_table.h"
-#include "list.h"
-#include "table.h"
 
-domain_info*	create_domain_info(void)
+static domain_info*	create_domain_info(void)
 {
 	domain_info		*ret;
 
@@ -24,29 +22,37 @@ domain_info*	create_domain_info(void)
 	return (ret);
 }
 
-void	free_info(void *__info)
+static unsigned int	get_table_init_size(unsigned int entry_size, unsigned int table_size, double ratio, unsigned int index)
 {
-	site_info	*info = (site_info *)__info;
+	unsigned int	ret;
 
-	if (info->path)
-		free(info->path);
-	if (info->file)
-		free(info->file);
-	free(info);
+	if (table_size == 1)
+		return (entry_size);
+	ret = entry_size * (1 - ratio) / (1 - pow(ratio, table_size));
+	ret = ret * pow(ratio, index);
+	return (ret);
 }
 
-void	free_domain_info(void *__info)
+static unsigned int	ntk_table_get_insert_index(ntk_table *table, const char *key)
 {
-	domain_info	*info = (domain_info *)__info;
+	unsigned int		ret, index;
+	Node				*node;
+	Table				*cur_table;
 
-	if (info)
+	for (ret = 0; ret < TABLE_COUNT; ret++)
 	{
-		if (info->directory)
-			list_free_with_custom_free(info->directory, free_info);
-		if (info->page)
-			table_free_with_custom_free(info->page, free_info);
-		free(info);
+		cur_table = table->tables[ret];
+		index = cur_table->hash(key, cur_table->size);
+		if (cur_table->buckets[index] == NULL)
+			return (ret);
+		for (node = cur_table->buckets[index]; node != NULL; node = node->next)
+			if (cur_table->cmp(node->key, key) == 0)
+				return (ret);
+		collision_count[ret]++;
 	}
+	if (ret == TABLE_COUNT)
+		ret = table->tables[0]->hash(table, TABLE_COUNT);
+	return (ret);
 }
 
 int	ntk_compare(const void *x, const void *y)
@@ -64,19 +70,8 @@ int	ntk_compare(const void *x, const void *y)
 	return (0);
 }
 
-unsigned int	get_table_size(unsigned int entry_size, unsigned int table_size, double ratio, unsigned int index)
-{
-	unsigned int	ret;
-
-	if (table_size == 1)
-		return (entry_size);
-	ret = entry_size * (1 - ratio) / (1 - pow(ratio, table_size));
-	ret = ret * pow(ratio, index);
-	return (ret);
-}
-
 ntk_table*		ntk_table_new(unsigned int entry_size, unsigned int table_size, double ratio, int cmp(const void *x, const void *y), \
-											unsigned int (**hash_arr)(const void *key, const size_t table_size))
+																unsigned int (**hash_arr)(const void *key, const size_t table_size))
 {
 	ntk_table		*ret;
 	unsigned int	i;
@@ -87,7 +82,7 @@ ntk_table*		ntk_table_new(unsigned int entry_size, unsigned int table_size, doub
 	ret->tables = malloc(sizeof(Table) * table_size);
 	assert(ret->tables != NULL);
 	for (i = 0; i < table_size; i++)
-		ret->tables[i] = table_new(get_table_size(entry_size, table_size, ratio, i), cmp, hash_arr[i]);
+		ret->tables[i] = table_new(get_table_init_size(entry_size, table_size, ratio, i), cmp, hash_arr[i]);
 	return (ret);
 }
 
@@ -105,43 +100,9 @@ void*	ntk_table_get(ntk_table *table, const char *key)
 	return (ret);
 }
 
-unsigned int	ntk_table_get_insert_index(ntk_table *table, const char *key)
-{
-	unsigned int		i, ret, index;
-	bool				exist = false;
-	Node				*node;
-	Table				*cur_table;
-
-	for (i = 0; i < TABLE_COUNT; i++)
-	{
-		cur_table = table->tables[i];
-		index = cur_table->hash(key, cur_table->size);
-		if (cur_table->buckets[index] == NULL)
-		{
-			ret = i;
-			break ;
-		}
-		for (node = cur_table->buckets[index]; node != NULL; node = node->next)
-		{
-			if (cur_table->cmp(node->key, key) == 0)
-			{
-				ret = i;
-				exist = true;
-				break;
-			}
-		}
-		if (exist)
-			break;
-		collision_count[i]++;
-	}
-	if (i == TABLE_COUNT)
-		ret = table->tables[0]->hash(table, TABLE_COUNT);
-	return (ret);
-}
-
 void	ntk_table_put(ntk_table *table, char *key, site_info *info)
 {
-	domain_info		*value = ntk_table_get(table, key), *prev_domain_info = NULL;
+	domain_info		*value = ntk_table_get(table, key);
 	site_info		*prev_info;
 	unsigned int	insert_index;
 	char			*page_key;
@@ -162,8 +123,7 @@ void	ntk_table_put(ntk_table *table, char *key, site_info *info)
 		}
 	}
 	insert_index = ntk_table_get_insert_index(table, key);
-	prev_domain_info = table_put(table->tables[insert_index], key, value);
-	if (prev_domain_info != NULL)
+	if (table_put(table->tables[insert_index], key, value) != NULL)
 		free(key);
 }
 

@@ -6,41 +6,16 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/04 18:24:46 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 15:22:37 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 # include "site_db_table.h"
 
-char *strrstr(const char *haystack, const char *needle)
+void	free_tokens(char **tokens)
 {
-    int  haystack_len;
-    int  needle_len;
-    char *ptr;
-
-    haystack_len = strlen(haystack);
-    needle_len   = strlen(needle);
-
-    if(needle_len == 0) {
-        return (char *)haystack;
-    }
-
-    if(needle_len > haystack_len) {
-        return NULL;
-    }
-
-    ptr = (char *)haystack + haystack_len - needle_len;
-    
-    while(1)  {
-        if(strncmp(ptr, needle, needle_len) == 0) {
-            return ptr;
-        }
-        if(ptr == haystack) {
-            break;
-        }
-		ptr--;
-    }
-    return NULL;
+	ntk_strsplit_free(tokens);
 }
 
 char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_length)
@@ -48,7 +23,7 @@ char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, in
 	int		length = 0;
 	char	**tokens;
 
-	tokens = ntk_str_split(url, delimiter);
+	tokens = ntk_strsplit(url, delimiter);
 	while (tokens[length] != NULL)
 		length++;
 	*token_length = length;
@@ -61,21 +36,6 @@ char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, in
 	return (tokens);
 }
 
-void	free_tokens(char **tokens)
-{
-	char	**temp;
-	int		i;
-
-	i = 0;
-	if (tokens)
-	{
-		temp = tokens;
-		while (temp[i] != NULL)
-			free(temp[i++]);
-		free(tokens);
-	}
-}
-
 bool	set_file_and_path(site_info *ret, char *url, char **tokens)
 {
     int		str_size;
@@ -84,7 +44,7 @@ bool	set_file_and_path(site_info *ret, char *url, char **tokens)
     char	*file_start_point, *file;
 
     // Find file start point and extract file
-    file_start_point = strrstr(url, path_token);
+    file_start_point = ntk_strrstr(url, path_token);
 	if (file_start_point == NULL)
 		return (false);
     str_size = strlen(file_start_point) - 16; // 16 str length = ,4,4,0,0,0,0,I,P

@@ -6,7 +6,7 @@
 /*   By: szheng <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/28 14:48:08 by szheng            #+#    #+#             */
-/*   Updated: 2023/04/03 15:26:24 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 14:24:21 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@
 # include <string.h>
 
 char*	get_next_line(const int fd);
-char**	ntk_str_split(char const *s, char delimiter);
+void	ntk_strsplit_free(char **str_splits);
+char**	ntk_strsplit(char const *s, char delimiter);
 char*	ntk_strjoin(char const *s1, char const *s2);
 char*	ntk_strdup(const char *s1);
 char*	ntk_strndup(const char *s1, size_t str_length);
+char*	ntk_strrstr(const char *haystack, const char *needle);
+char*	ntk_itoa(int n);
 
 #endif

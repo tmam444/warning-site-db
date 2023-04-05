@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/04 17:14:09 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 14:45:29 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,29 @@ typedef struct site_info_struct {
 	e_type		type;
 } site_info;
 
-void			free_info(void *__info);
-void			free_domain_info(void *__info);
-ntk_table*		ntk_table_new(unsigned int entry_size, unsigned int table_count, double ratio, int cmp(const void *x, const void *y), \
-											unsigned int (**hash_arr)(const void *key, const size_t table_size));
-char**			ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_size);
-site_info*		ntk_parser(char *str, char **key);
-int				ntk_compare(const void *x, const void *y);
-void			ntk_table_put(ntk_table *table, char *__key, site_info *__value);
-void			ntk_table_remove(ntk_table *table, const char *__key);
-void			ntk_table_free(ntk_table *table);
+typedef struct url_info_struct {
+	char	*domain;
+	char	*path;
+	char	*file;
+} url_info;
 
+/* Clear Structor Functions */
+void		free_info(void *__info);
+void		free_domain_info(void *__info);
+void		free_url_info(url_info *url);
+
+ntk_table*	ntk_table_new(unsigned int entry_size, unsigned int table_count, double ratio, int cmp(const void *x, const void *y), \
+											unsigned int (**hash_arr)(const void *key, const size_t table_size));
+char**		ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_size);
+site_info*	ntk_parser(char *str, char **key);
+int			ntk_compare(const void *x, const void *y);
+void		ntk_table_put(ntk_table *table, char *__key, site_info *__value);
+void*		ntk_table_get(ntk_table *table, const char *key);
+void		ntk_table_remove(ntk_table *table, const char *__key);
+void		ntk_table_free(ntk_table *table);
+
+bool		ntk_check_url(char *host, char *urn, int port, ntk_table *table);
+url_info*	create_url_struct(char *host, char *urn, int port);
 
 extern unsigned int	collision_count[TABLE_COUNT];
 
