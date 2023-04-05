@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 17:30:59 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 15:48:46 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:22:59 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_site_info(site_info *info)
 {
 	printf("port=%d, path=%s, file=%s, nude=%d, sex=%d,", info->port, info->path, info->file, info->nude, info->sex);
-	printf("vio=%d, lang=%d, etc1=%d, etc2=%d, status=%c, type=%c", info->violence, info->language, info->etc1, info->etc2, \
+	printf("vio=%d, lang=%d, etc1=%d, etc2=%d, status=%c, type=%c\n", info->violence, info->language, info->etc1, info->etc2, \
 																	info->status, info->type);
 }
 
@@ -55,6 +55,7 @@ url_info*	create_url_struct(char *host, char *urn, int port)
         url->domain = ntk_strjoin(http, is_start_www ? host_check_point : host);
 
     temp = ntk_strjoin(url->domain, suffix);
+	free(suffix);
     free(url->domain);
     url->domain = temp;
 
@@ -100,7 +101,9 @@ site_info*	ntk_search(url_info *url, ntk_table *table)
 	char			*hash;
 
 	hash = create_md5(url->domain);
+	printf("hash = %s\n", hash);
 	info = ntk_table_get(table, hash);
+	free(hash);
 	if (info)
 	{
 		temp = ntk_directory_search(info->directory, url->path);

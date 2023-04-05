@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 14:45:29 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:01:29 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "EnCrypt.h"
 # include "get_next_line.h"
 # include "hash.h"
+# include "debug.h"
 # include <math.h>
 # include <string.h>
 

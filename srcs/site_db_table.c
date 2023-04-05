@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 15:48:31 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:33:29 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ntk_table_put(ntk_table *table, char *key, site_info *info)
 
 void	ntk_table_remove(ntk_table *table, const char *key)
 {
-	site_info		*delete_value;
+	domain_info		*delete_value;
 	unsigned int	i;
 
 	assert(table != NULL && key != NULL);

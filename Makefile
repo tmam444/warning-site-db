@@ -6,18 +6,18 @@
 #    By: chulee <chulee@nstek.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 14:04:03 by chulee            #+#    #+#              #
-#    Updated: 2023/04/05 13:21:42 by chulee           ###   ########.fr        #
+#    Updated: 2023/04/05 16:24:23 by chulee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=md5
 SRCS=$(wildcard srcs/*.c)
-OBJS = $(addprefix objs/, $(notdir $(SRCS:.c=.o)))
-CC = gcc
-INCLUDE= -O3 -I./includes
-CFLAGS = 
-LDFLAGS = -lm
-OBJ_FILES = $(OBJS)
+OBJS=$(addprefix objs/, $(notdir $(SRCS:.c=.o)))
+CC=gcc
+INCLUDE=-O3 -I./includes
+CFLAGS=
+LDFLAGS=-lm
+OBJ_FILES=$(OBJS)
 
 $(NAME) : $(OBJ_FILES)
 		$(CC) $(CFLAGS) $(INCLUDE) -o $(NAME) $(OBJ_FILES) $(LDFLAGS)

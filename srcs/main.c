@@ -6,10 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:45:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 15:21:45 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:31:01 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debug.h"
 #include "site_db_table.h"
 
 unsigned int	collision_count[TABLE_COUNT];
@@ -24,25 +25,24 @@ ntk_table*	create_ntk_table(void)
 	return (ret);
 }
 
-/*
 void	file_read(int argc, char *argv[], ntk_table *table)
 {
-	const char	*filename = "00000000.txt";
 	char		*line, *key;
 	site_info	*info;
-	int			fd, i, j;
+	int			fd, i;
 	argc = 2;
 
+#ifdef DEBUG_H
+	START_TIME("File read start!");
+#endif
 	for (i = 1; i < argc; i++)
 	{
-		printf("i = %d, argv[i] = %s\n", i, argv[i]);
-		fd = open(filename, O_RDONLY);
+		fd = open(argv[i], O_RDONLY);
 		if (fd < 0)
 		{
 			fprintf(stderr, "Not Found File: %s\n", argv[i]);
 			continue;
 		}
-		j = 0;
 		while ((line = get_next_line(fd)) != NULL)
 		{
 			info = ntk_parser(line, &key);
@@ -56,49 +56,13 @@ void	file_read(int argc, char *argv[], ntk_table *table)
 			else
 				ntk_table_remove(table, key);
 			free(line);
-			if (++j % 20000 == 0)
-				printf("read count : %d\n", j);
 		}
 	}
+#ifdef DEBUG_H
+	END_TIME("File read time");
+#endif
 	printf("setup complete\n");
 }
-*/
-
-void    setup(ntk_table *table)
-{
-        const char      *filename = "./00000000.txt";
-        char            *line, *key;
-        site_info       *info;
-        int                     fd, i;
-
-        fd = open(filename, O_RDONLY);
-        if (fd < 0)
-        {
-                fprintf(stderr, "Not Found File: %s\n", filename);
-                exit(1);
-        }
-        i = 0;
-        while ((line = get_next_line(fd)) != NULL)
-        {
-                // printf("i = %d, line = %s\n", ++i, line);
-                info = ntk_parser(line, &key);
-                if (info == NULL)
-                {
-                        free(line);
-                        continue;
-                }
-                if (info->status == INSERT)
-                        ntk_table_put(table, key, info);
-                else
-                        ntk_table_remove(table, key);
-                free(line);
-                if (i % 20000 == 0)
-                        printf("read : %d\n", i);
-                i++;
-        }
-        printf("setup complete\n");
-}
-
 
 void	clear(ntk_table *table)
 {
@@ -109,6 +73,8 @@ void	check_test(ntk_table *table)
 {
 	ntk_check_url("www.metart.com", "/account", 443, table);
 	ntk_check_url("www.metart.com", "/account/", 443, table);
+	ntk_check_url("sexefelin.com", "/", 80, table);
+	ntk_check_url("sexefelin.com", "/labels.rdf", 80, table);
 }
 
 int	main(int argc, char *argv[])
@@ -121,8 +87,7 @@ int	main(int argc, char *argv[])
 		exit(1);
 	}
 	table = create_ntk_table();
-	setup(table);
-	// file_read(argc, argv, table);
+	file_read(argc, argv, table);
 	check_test(table);
 	clear(table);
 
