@@ -6,36 +6,18 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 18:39:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:43:44 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/07 10:34:38 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "warning_site_db_table.h"
 
-void	free_tokens(char **tokens)
+static void	free_tokens(char **tokens)
 {
 	ntk_strsplit_free(tokens);
 }
 
-char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_length)
-{
-	int		length = 0;
-	char	**tokens;
-
-	tokens = ntk_strsplit(url, delimiter);
-	while (tokens[length] != NULL)
-		length++;
-	*token_length = length;
-	if (length < 12)
-		*status = TOKEN_STATUS_ERROR;
-	else if (length == 12 || (length == 13 && strcmp(tokens[3], tokens[4]) == 0))
-		*status = TOKEN_STATUS_NORMAL;
-	else
-		*status = TOKEN_STATUS_ABNORMAL;
-	return (tokens);
-}
-
-bool	set_file_and_path(site_info *ret, char *url, char **tokens)
+static bool	set_file_and_path(site_info *ret, char *url, char **tokens)
 {
     int		str_size;
     char	*path_token = tokens[2];
@@ -68,7 +50,7 @@ bool	set_file_and_path(site_info *ret, char *url, char **tokens)
     return (true);
 }
 
-site_info	*ntk_make_info(char *url, char **tokens, char **key, e_token_status token_status, const int length)
+static site_info	*ntk_make_info(char *url, char **tokens, char **key, e_token_status token_status, const int length)
 {
 	site_info	*ret;
 
@@ -100,6 +82,24 @@ site_info	*ntk_make_info(char *url, char **tokens, char **key, e_token_status to
 	ret->status = tokens[length - 2][0] == 'I' ? INSERT : DELETE;
 	ret->type = tokens[length - 1][0] == 'S' ? SUB_DIRECTORY : PAGE;
 	return (ret);
+}
+
+char**	ntk_tokenizer(char *url, const char delimiter, e_token_status *status, int *token_length)
+{
+	int		length = 0;
+	char	**tokens;
+
+	tokens = ntk_strsplit(url, delimiter);
+	while (tokens[length] != NULL)
+		length++;
+	*token_length = length;
+	if (length < 12)
+		*status = TOKEN_STATUS_ERROR;
+	else if (length == 12 || (length == 13 && strcmp(tokens[3], tokens[4]) == 0))
+		*status = TOKEN_STATUS_NORMAL;
+	else
+		*status = TOKEN_STATUS_ABNORMAL;
+	return (tokens);
 }
 
 site_info	*ntk_parser(char *url, char **key)

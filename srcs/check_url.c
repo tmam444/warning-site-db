@@ -6,18 +6,11 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 17:30:59 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:58:14 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/07 13:18:37 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "warning_site_db_table.h"
-
-void	print_site_info(site_info *info)
-{
-	printf("port=%d, path=%s, file=%s, nude=%d, sex=%d,", info->port, info->path, info->file, info->nude, info->sex);
-	printf("vio=%d, lang=%d, etc1=%d, etc2=%d, status=%c, type=%c\n", info->violence, info->language, info->etc1, info->etc2, \
-																	info->status, info->type);
-}
 
 static url_info*	create_url_struct(char *host, char *urn, int port)
 {
@@ -62,7 +55,7 @@ static url_info*	create_url_struct(char *host, char *urn, int port)
     return (url);
 }
 
-int	ntk_directory_compare(const char *x, const char *y)
+static int	ntk_directory_compare(const char *x, const char *y)
 {
 	const char *str_x = x;
 	const char *str_y = y;
@@ -80,7 +73,7 @@ int	ntk_directory_compare(const char *x, const char *y)
 	return (0);
 }
 
-site_info*	ntk_directory_search(List *lst, const char *key)
+static site_info*	ntk_directory_search(List *lst, const char *key)
 {
 	site_info	*value;
 
@@ -94,14 +87,13 @@ site_info*	ntk_directory_search(List *lst, const char *key)
 	return (NULL);
 }
 
-site_info*	ntk_search(url_info *url, ntk_table *table)
+static site_info*	ntk_search(url_info *url, ntk_table *table)
 {
 	domain_info		*info;
 	site_info		*temp, *value = NULL;
 	char			*hash;
 
 	hash = create_md5(url->domain);
-	printf("hash = %s\n", hash);
 	info = ntk_table_get(table, hash);
 	free(hash);
 	if (info)
@@ -126,7 +118,7 @@ bool	ntk_check_url(char *host, char *urn, int port, ntk_table *table)
 	value = ntk_search(url, table);
 	if (value)
 	{
-		print_site_info(value);
+		printf("%s is find!\n", url->domain);
 		ret = true;
 	}
 	free_url_info(url);

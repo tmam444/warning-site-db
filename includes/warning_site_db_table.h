@@ -6,16 +6,16 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:06:02 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:58:49 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/07 15:34:10 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WARNING_SITE_DB_TABLE_H
 # define WARNING_SITE_DB_TABLE_H
 # define TABLE_COUNT 3
-# define TABLE_RATIO 0.64
-# define TABLE_SIZE 10000000
-# define TABLE_PAGE_SIZE 200
+# define TABLE_RATIO 0.095
+# define TABLE_SIZE 5000000
+# define TABLE_PAGE_SIZE 50
 # include "table.h"
 # include "list.h"
 # include "MD5.h"
@@ -48,6 +48,6 @@ char**		ntk_tokenizer(char *url, const char delimiter, e_token_status *status, i
 /* Check URL Functions */
 bool		ntk_check_url(char *host, char *urn, int port, ntk_table *table);
 
-extern unsigned int	collision_count[TABLE_COUNT];
+extern unsigned int	collision_count[TABLE_COUNT + 1];
 
 #endif

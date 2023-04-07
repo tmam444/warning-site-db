@@ -6,13 +6,13 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 14:45:08 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:45:38 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/07 15:35:56 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "warning_site_db_table.h"
 
-unsigned int	collision_count[TABLE_COUNT];
+unsigned int	collision_count[TABLE_COUNT + 1];
 
 ntk_table*	create_ntk_table(void)
 {
@@ -95,10 +95,9 @@ int	main(int argc, char *argv[])
 	file_read(argc, argv, table);
 	check_test(table);
 	clear(table);
-
 	int	i;
 	for (i = 0; i < TABLE_COUNT; i++)
-		printf("%d차 : %d, ", i, collision_count[i]);
-	printf("\n");
+		printf("%d차 충돌 : %d, ", i + 1, collision_count[i]);
+	printf("총합 : %d\n", collision_count[0] + collision_count[1] + collision_count[2]);
 	return (0);
 }

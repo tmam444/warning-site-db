@@ -6,7 +6,7 @@
 /*   By: chulee <chulee@nstek.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:54:12 by chulee            #+#    #+#             */
-/*   Updated: 2023/04/05 16:43:51 by chulee           ###   ########.fr       */
+/*   Updated: 2023/04/07 10:42:34 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,18 @@ static unsigned int	ntk_table_get_insert_index(ntk_table *table, const char *key
 		cur_table = table->tables[ret];
 		index = cur_table->hash(key, cur_table->size);
 		if (cur_table->buckets[index] == NULL)
+		{
+			for (index = 0; index < ret; index++)
+				collision_count[index]++;
 			return (ret);
+		}
 		for (node = cur_table->buckets[index]; node != NULL; node = node->next)
 			if (cur_table->cmp(node->key, key) == 0)
 				return (ret);
-		collision_count[ret]++;
 	}
-	if (ret == TABLE_COUNT)
-		ret = table->tables[0]->hash(table, TABLE_COUNT);
+	for (index = 0; index < ret; index++)
+		collision_count[index]++;
+	ret = table->tables[0]->hash(key, TABLE_COUNT);
 	return (ret);
 }
 
@@ -109,7 +113,10 @@ void	ntk_table_put(ntk_table *table, char *key, site_info *info)
 
 	assert(key != NULL && table != NULL && info != NULL);
 	if (value == NULL)
+	{
 		value = create_domain_info();
+		collision_count[TABLE_COUNT]++;
+	}
 	if (info->type == SUB_DIRECTORY)
 		value->directory = list_push(value->directory, info);
 	else

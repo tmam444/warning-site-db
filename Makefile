@@ -6,11 +6,11 @@
 #    By: chulee <chulee@nstek.com>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 14:04:03 by chulee            #+#    #+#              #
-#    Updated: 2023/04/05 17:02:19 by chulee           ###   ########.fr        #
+#    Updated: 2023/04/07 15:03:25 by chulee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=md5
+NAME=db
 SRCS=$(wildcard srcs/*.c)
 OBJS=$(addprefix objs/, $(notdir $(SRCS:.c=.o)))
 CC=gcc
